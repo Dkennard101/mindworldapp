@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Biology – MindWorld</title>
+  <link rel="stylesheet" href="css/style.css">
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js"></script>
+</head>
+<body>
+  <h1>Biology</h1>
+
+  <div class="file">
+    <p>Form 1 Cells</p>
+    <button onclick="downloadFile('biology','form1_cells.pdf')">Download</button>
+    <span id="status-form1">Loading...</span>
+  </div>
+
+  <div class="file">
+    <p>Form 2 Plant Biology</p>
+    <button onclick="downloadFile('biology','form2_plants.pdf')">Download</button>
+    <span id="status-form2">Loading...</span>
+  </div>
+
+  <script src="js/app.js"></script>
+</body>
+</html>
