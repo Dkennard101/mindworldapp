@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Economics – MindWorld</title>
+  <link rel="stylesheet" href="css/style.css">
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js"></script>
+</head>
+<body>
+  <h1>Economics</h1>
+
+  <div class="file">
+    <p>Form 1 Introduction</p>
+    <button onclick="downloadFile('economics','form1_intro.pdf')">Download</button>
+    <span id="status-form1">Loading...</span>
+  </div>
+
+  <div class="file">
+    <p>Form 2 Microeconomics</p>
+    <button onclick="downloadFile('economics','form2_micro.pdf')">Download</button>
+    <span id="status-form2">Loading...</span>
+  </div>
+
+  <script src="js/app.js"></script>
+</body>
+      </html>
