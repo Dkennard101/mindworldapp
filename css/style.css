@@ -1,34 +1,145 @@
+/* Global Styles */
 body {
   font-family: Arial, sans-serif;
-  margin: 10px;
+  margin: 0;
   padding: 0;
   background: #f9f9f9;
+  color: #333;
 }
 
-.banner {
+a {
+  color: #0A3D62;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* Header */
+header {
   background: #0A3D62;
   color: white;
-  padding: 10px;
+  padding: 15px 10px;
   text-align: center;
-  margin-bottom: 15px;
 }
 
-.ad {
-  background: #f4f4f4;
-  padding: 10px;
-  margin: 10px 0;
-  text-align: center;
-  border: 1px solid #ccc;
+header h1 {
+  margin: 0;
+  font-size: 24px;
 }
 
 nav a {
   margin: 0 10px;
-  text-decoration: none;
-  color: #0A3D62;
+  font-weight: bold;
 }
 
-button {
-  padding: 5px 10px;
-  margin-top: 5px;
+/* Main Content */
+main {
+  padding: 20px;
+}
+
+main h2 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 15px;
+}
+
+ul li {
+  background: white;
+  padding: 15px;
+  text-align: center;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+ul li a {
+  display: block;
+  font-weight: bold;
+  padding: 10px 0;
+}
+
+/* Auth Forms (login/register) */
+.auth-form {
+  max-width: 350px;
+  margin: 20px auto;
+  padding: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.auth-form input {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+.auth-form button {
+  width: 100%;
+  padding: 10px;
+  background: #0A3D62;
+  color: white;
+  border: none;
+  border-radius: 5px;
   cursor: pointer;
+  font-weight: bold;
+}
+
+.auth-form button:hover {
+  background: #06294B;
+}
+
+/* Subject Pages */
+.file {
+  background: white;
+  margin: 10px 0;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.file p {
+  margin: 0;
+}
+
+.file button {
+  background: #0A3D62;
+  color: white;
+  border: none;
+  padding: 5px 12px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.file button:hover {
+  background: #06294B;
+}
+
+/* Footer */
+footer {
+  text-align: center;
+  padding: 15px 10px;
+  background: #0A3D62;
+  color: white;
+  margin-top: 20px;
+  font-size: 14px;
+}
+
+@media (max-width: 600px) {
+  ul {
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  }
 }
