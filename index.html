@@ -4,101 +4,82 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>MindWorld Learning Materials</title>
+
+  <!-- Firebase App -->
+  <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-analytics.js"></script>
+
+  <script>
+    // Firebase config for your project
+    const firebaseConfig = {
+      apiKey: "YOUR_API_KEY",
+      authDomain: "mind-world-13a05.firebaseapp.com",
+      projectId: "mind-world-13a05",
+      storageBucket: "mind-world-13a05.appspot.com",
+      messagingSenderId: "32577127287",
+      appId: "1:32577127287:web:673dd883f027bb6bdcd772",
+      measurementId: "G-MEASUREMENT_ID"
+    };
+
+    // Initialize Firebase
+    const app = firebase.initializeApp(firebaseConfig);
+    const analytics = firebase.getAnalytics(app);
+
+    // Function to show ad placeholder before opening material
+    function showAdThenOpen(url) {
+      // TODO: Replace with actual rewarded ad integration
+      alert("Watch ad first (replace with AdSense/Ad Manager rewarded ad)");
+      window.location.href = url;
+    }
+  </script>
+
   <link rel="stylesheet" href="style.css">
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      background-color: #f5f5f5;
-    }
-
-    header.banner {
-      background-color: #4CAF50;
-      color: white;
-      text-align: center;
-      padding: 2rem 1rem;
-    }
-
-    header.banner h1 {
-      margin: 0 0 0.5rem 0;
-    }
-
-    header.banner p {
-      margin: 0;
-      font-size: 1rem;
-    }
-
-    main {
-      padding: 2rem 1rem;
-      max-width: 1200px;
-      margin: auto;
-    }
-
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-      gap: 1rem;
-    }
-
-    .card {
-      background-color: white;
-      border-radius: 10px;
-      padding: 1.5rem;
-      text-align: center;
-      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-      transition: transform 0.2s, box-shadow 0.2s;
-      text-decoration: none;
-      color: #333;
-      font-weight: bold;
-    }
-
-    .card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 8px 12px rgba(0,0,0,0.2);
-    }
-
-    .card span {
-      display: block;
-      margin-top: 0.5rem;
-      font-size: 0.9rem;
-      color: #666;
-    }
+    body { font-family: Arial, sans-serif; margin:0; background:#f5f5f5; }
+    header.banner { background:#4CAF50; color:white; text-align:center; padding:2rem 1rem; }
+    main { padding:2rem 1rem; max-width:1200px; margin:auto; }
+    .grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(180px,1fr)); gap:1rem; }
+    .card { background:white; border-radius:10px; padding:1.5rem; text-align:center;
+            box-shadow:0 4px 6px rgba(0,0,0,0.1); transition:transform 0.2s, box-shadow 0.2s;
+            text-decoration:none; color:#333; font-weight:bold; cursor:pointer; }
+    .card:hover { transform:translateY(-5px); box-shadow:0 8px 12px rgba(0,0,0,0.2); }
+    .card span { display:block; margin-top:0.5rem; font-size:0.9rem; color:#666; }
   </style>
 </head>
 <body>
 
   <header class="banner">
     <h1>MindWorld Learning Materials</h1>
-    <p>Select a page or subject to explore materials.</p>
+    <p>Select a subject or page. Watch ads to unlock materials.</p>
   </header>
 
   <main>
     <div class="grid">
       <!-- General Pages -->
-      <a href="website.html" class="card">Home / Website<span>General Info</span></a>
-      <a href="login.html" class="card">Login<span>Access your account</span></a>
-      <a href="register.html" class="card">Register<span>Create new account</span></a>
+      <div class="card" onclick="window.location.href='website.html'">Home / Website<span>General Info</span></div>
+      <div class="card" onclick="window.location.href='login.html'">Login<span>Access your account</span></div>
+      <div class="card" onclick="window.location.href='register.html'">Register<span>Create new account</span></div>
 
       <!-- Subjects -->
-      <a href="math.html" class="card">Mathematics<span>Form 1–6 Materials</span></a>
-      <a href="english.html" class="card">English<span>Form 1–6 Materials</span></a>
-      <a href="biology.html" class="card">Biology<span>Form 1–6 Materials</span></a>
-      <a href="chemistry.html" class="card">Chemistry<span>Form 1–6 Materials</span></a>
-      <a href="physics.html" class="card">Physics<span>Form 1–6 Materials</span></a>
-      <a href="geography.html" class="card">Geography<span>Form 1–6 Materials</span></a>
-      <a href="history.html" class="card">History<span>Form 1–6 Materials</span></a>
-      <a href="commerce.html" class="card">Commerce<span>Form 1–6 Materials</span></a>
-      <a href="accounts.html" class="card">Accounts<span>Form 1–6 Materials</span></a>
-      <a href="agriculture.html" class="card">Agriculture<span>Form 1–6 Materials</span></a>
-      <a href="ict.html" class="card">ICT<span>Form 1–6 Materials</span></a>
-      <a href="economics.html" class="card">Economics<span>Form 1–6 Materials</span></a>
-      <a href="business.html" class="card">Business Studies<span>Form 1–6 Materials</span></a>
-      <a href="rme.html" class="card">RME<span>Form 1–6 Materials</span></a>
-      <a href="shona.html" class="card">Shona<span>Form 1–6 Materials</span></a>
-      <a href="ndebele.html" class="card">Ndebele<span>Form 1–6 Materials</span></a>
-      <a href="science.html" class="card">Science<span>Form 1–6 Materials</span></a>
+      <div class="card" onclick="showAdThenOpen('math.html')">Mathematics<span>Form 1–6</span></div>
+      <div class="card" onclick="showAdThenOpen('english.html')">English<span>Form 1–6</span></div>
+      <div class="card" onclick="showAdThenOpen('biology.html')">Biology<span>Form 1–6</span></div>
+      <div class="card" onclick="showAdThenOpen('chemistry.html')">Chemistry<span>Form 1–6</span></div>
+      <div class="card" onclick="showAdThenOpen('physics.html')">Physics<span>Form 1–6</span></div>
+      <div class="card" onclick="showAdThenOpen('geography.html')">Geography<span>Form 1–6</span></div>
+      <div class="card" onclick="showAdThenOpen('history.html')">History<span>Form 1–6</span></div>
+      <div class="card" onclick="showAdThenOpen('commerce.html')">Commerce<span>Form 1–6</span></div>
+      <div class="card" onclick="showAdThenOpen('accounts.html')">Accounts<span>Form 1–6</span></div>
+      <div class="card" onclick="showAdThenOpen('agriculture.html')">Agriculture<span>Form 1–6</span></div>
+      <div class="card" onclick="showAdThenOpen('ict.html')">ICT<span>Form 1–6</span></div>
+      <div class="card" onclick="showAdThenOpen('economics.html')">Economics<span>Form 1–6</span></div>
+      <div class="card" onclick="showAdThenOpen('business.html')">Business Studies<span>Form 1–6</span></div>
+      <div class="card" onclick="showAdThenOpen('rme.html')">RME<span>Form 1–6</span></div>
+      <div class="card" onclick="showAdThenOpen('shona.html')">Shona<span>Form 1–6</span></div>
+      <div class="card" onclick="showAdThenOpen('ndebele.html')">Ndebele<span>Form 1–6</span></div>
+      <div class="card" onclick="showAdThenOpen('science.html')">Science<span>Form 1–6</span></div>
     </div>
   </main>
 
 </body>
-        </html>
+</html>
