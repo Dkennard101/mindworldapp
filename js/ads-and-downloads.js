@@ -1,28 +1,106 @@
 // ads-and-downloads.js
-document.addEventListener('DOMContentLoaded', function() {
-  const downloadButtons = document.querySelectorAll('.download-btn');
+// Modular Firebase (CDN ONLY)
 
-  downloadButtons.forEach(btn => {
-    btn.addEventListener('click', function(e) {
-      e.preventDefault();
-      // Trigger rewarded ad first
-      showRewardedAd().then(success => {
-        if(success) {
-          // After ad, allow download or open embedded material
-          window.alert('Ad watched! You can now access the material.');
-          // Example: window.open('path-to-material', '_blank');
-        } else {
-          window.alert('You must watch the ad to access this material.');
-        }
-      });
-    });
-  });
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-app.js";
+import {
+  getAuth,
+  onAuthStateChanged,
+  signInWithEmailAndPassword,
+  createUserWithEmailAndPassword,
+  signOut
+} from "https://www.gstatic.com/firebasejs/12.9.0/firebase-auth.js";
+
+import {
+  getFirestore,
+  doc,
+  setDoc,
+  getDoc,
+  updateDoc
+} from "https://www.gstatic.com/firebasejs/12.9.0/firebase-firestore.js";
+
+// 🔹 Firebase Config
+const firebaseConfig = {
+  apiKey: "AIzaSyAlYXlGCDZOy_DXMNSX3GGCKmucOlJgvbM",
+  authDomain: "mind-world-13a05.firebaseapp.com",
+  projectId: "mind-world-13a05",
+  storageBucket: "mind-world-13a05.firebasestorage.app",
+  messagingSenderId: "32577127287",
+  appId: "1:32577127287:web:673dd883f027bb6bdcd772"
+};
+
+// 🔹 Initialize ONCE
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+
+let currentUser = null;
+window.isSubscriber = false;
+
+// 🔹 Auth Listener
+onAuthStateChanged(auth, async (user) => {
+  currentUser = user;
+
+  if (user) {
+    const snap = await getDoc(doc(db, "users", user.uid));
+    window.isSubscriber = snap.exists() && snap.data().subscription === true;
+  } else {
+    window.isSubscriber = false;
+  }
 });
 
+// 🔹 Register
+window.registerUser = async (email, password) => {
+  try {
+    const cred = await createUserWithEmailAndPassword(auth, email, password);
+
+    await setDoc(doc(db, "users", cred.user.uid), {
+      email: email,
+      subscription: false,
+      isAppUser: false,
+      subjects: {}
+    });
+
+    alert("Registered successfully");
+  } catch (e) {
+    alert(e.message);
+  }
+};
+
+// 🔹 Login
+window.loginUser = async (email, password) => {
+  try {
+    await signInWithEmailAndPassword(auth, email, password);
+    alert("Login successful");
+  } catch (e) {
+    alert(e.message);
+  }
+};
+
+// 🔹 Logout
+window.logoutUser = async () => {
+  await signOut(auth);
+  alert("Logged out");
+};
+
+// 🔹 Protected Navigation
+window.openMaterial = function (url) {
+  if (window.isSubscriber) {
+    window.location.href = url;
+  } else {
+    showRewardedAd().then((success) => {
+      if (success) {
+        window.location.href = url;
+      } else {
+        alert("You must watch the ad.");
+      }
+    });
+  }
+};
+
+// 🔹 Simulated Rewarded Ad
 function showRewardedAd() {
   return new Promise((resolve) => {
-    // Placeholder for real ad integration (AdSense / AdMob)
-    let watchedAd = confirm('Simulated ad: Click OK to simulate watching ad.');
-    resolve(watchedAd);
+    let watched = confirm("Simulated rewarded ad. Click OK to continue.");
+    resolve(watched);
   });
-}
+                   }
