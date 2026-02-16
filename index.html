@@ -5,142 +5,59 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>MindWorld Learning Materials</title>
 
-  <!-- Firebase Web SDK (Modular) -->
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-app.js";
-    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-auth.js";
-    import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-firestore.js";
-
-    const firebaseConfig = {
-      apiKey: "AIzaSyAlYXlGCDZOy_DXMNSX3GGCKmucOlJgvbM",
-      authDomain: "mind-world-13a05.firebaseapp.com",
-      projectId: "mind-world-13a05",
-      storageBucket: "mind-world-13a05.firebasestorage.app",
-      messagingSenderId: "32577127287",
-      appId: "1:32577127287:web:673dd883f027bb6bdcd772"
-    };
-
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-    const db = getFirestore(app);
-
-    window.isSubscriber = false;
-    window.authReady = false;
-
-    onAuthStateChanged(auth, async (user) => {
-      try {
-        if (user) {
-          const userDoc = await getDoc(doc(db, "users", user.uid));
-          if (userDoc.exists() && userDoc.data().subscription === true) {
-            window.isSubscriber = true;
-          } else {
-            window.isSubscriber = false;
-          }
-        } else {
-          window.isSubscriber = false;
-        }
-      } catch (error) {
-        console.error("Subscription check failed:", error);
-        window.isSubscriber = false;
-      }
-      window.authReady = true;
-    });
-
-    window.openMaterial = function(url) {
-      if (!window.authReady) {
-        alert("Please wait, checking subscription...");
-        return;
-      }
-
-      if (window.isSubscriber) {
-        window.location.href = url;
-      } else {
-        showAdThenOpen(url);
-      }
-    };
-
-    function showAdThenOpen(url) {
-      alert("Watch an ad first (placeholder for rewarded ad)");
-      window.location.href = url;
-    }
-  </script>
-
+  <!-- CSS -->
   <link rel="stylesheet" href="css/style.css">
+
+  <!-- JS Modules -->
+  <script type="module" src="js/app.js"></script>
+  <script type="module" src="js/ads-and-downloads.js"></script>
 
   <style>
     body { font-family: Arial, sans-serif; margin: 0; background: #f5f5f5; }
     header.banner { background: #4CAF50; color: white; text-align: center; padding: 2rem 1rem; }
     main { padding: 2rem 1rem; max-width: 1200px; margin: auto; }
     .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px,1fr)); gap: 1rem; }
-    .card {
-      background: white;
-      border-radius: 10px;
-      padding: 1.5rem;
-      text-align: center;
-      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-      transition: transform 0.2s, box-shadow 0.2s;
-      cursor:pointer;
-      font-weight: bold;
-    }
-    .card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 8px 12px rgba(0,0,0,0.2);
-    }
-    .card span {
-      display:block;
-      margin-top:0.5rem;
-      font-size:0.9rem;
-      color:#666;
-    }
+    .card { background: white; border-radius: 10px; padding: 1.5rem; text-align: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1); transition: transform 0.2s, box-shadow 0.2s;
+            cursor:pointer; font-weight: bold; }
+    .card:hover { transform: translateY(-5px); box-shadow: 0 8px 12px rgba(0,0,0,0.2); }
+    .card span { display:block; margin-top:0.5rem; font-size:0.9rem; color:#666; }
   </style>
-
 </head>
 <body>
 
-  <header class="banner">
-    <h1>MindWorld Learning Materials</h1>
-    <p>Select a page or subject to explore materials.</p>
-  </header>
+<header class="banner">
+  <h1>MindWorld Learning Materials</h1>
+  <p>Select a page or subject to explore materials.</p>
+</header>
 
-  <main>
-    <div class="grid">
+<main>
+  <div class="grid">
+    <!-- General Pages -->
+    <div class="card" onclick="window.location.href='website.html'">Home / Website<span>General Info</span></div>
+    <div class="card" onclick="window.location.href='login.html'">Login<span>Access your account</span></div>
+    <div class="card" onclick="window.location.href='register.html'">Register<span>Create new account</span></div>
 
-      <div class="card" onclick="window.location.href='website.html'">
-        Home / Website
-        <span>General Info</span>
-      </div>
-
-      <div class="card" onclick="window.location.href='login.html'">
-        Login
-        <span>Access your account</span>
-      </div>
-
-      <div class="card" onclick="window.location.href='register.html'">
-        Register
-        <span>Create new account</span>
-      </div>
-
-      <div class="card" onclick="openMaterial('mathematics.html')">Mathematics<span>Form 1–6</span></div>
-      <div class="card" onclick="openMaterial('english.html')">English<span>Form 1–6</span></div>
-      <div class="card" onclick="openMaterial('biology.html')">Biology<span>Form 1–6</span></div>
-      <div class="card" onclick="openMaterial('chemistry.html')">Chemistry<span>Form 1–6</span></div>
-      <div class="card" onclick="openMaterial('commerce.html')">Commerce<span>Form 1–6</span></div>
-      <div class="card" onclick="openMaterial('accounts.html')">Accounts<span>Form 1–6</span></div>
-      <div class="card" onclick="openMaterial('agriculture.html')">Agriculture<span>Form 1–6</span></div>
-      <div class="card" onclick="openMaterial('ict.html')">ICT<span>Form 1–6</span></div>
-      <div class="card" onclick="openMaterial('economics.html')">Economics<span>Form 1–6</span></div>
-      <div class="card" onclick="openMaterial('business.html')">Business Studies<span>Form 1–6</span></div>
-      <div class="card" onclick="openMaterial('ndebele.html')">Ndebele<span>Form 1–6</span></div>
-      <div class="card" onclick="openMaterial('geography.html')">Geography<span>Form 1–6</span></div>
-      <div class="card" onclick="openMaterial('history.html')">History<span>Form 1–6</span></div>
-      <div class="card" onclick="openMaterial('physics.html')">Physics<span>Form 1–6</span></div>
-      <div class="card" onclick="openMaterial('rme.html')">RME<span>Form 1–6</span></div>
-      <div class="card" onclick="openMaterial('shona.html')">Shona<span>Form 1–6</span></div>
-      <div class="card" onclick="openMaterial('science.html')">Science<span>Form 1–6</span></div>
-
-    </div>
-  </main>
+    <!-- Subject Material Links -->
+    <div class="card" onclick="openMaterial('mathematics.html')">Mathematics<span>Form 1–6</span></div>
+    <div class="card" onclick="openMaterial('english.html')">English<span>Form 1–6</span></div>
+    <div class="card" onclick="openMaterial('biology.html')">Biology<span>Form 1–6</span></div>
+    <div class="card" onclick="openMaterial('chemistry.html')">Chemistry<span>Form 1–6</span></div>
+    <div class="card" onclick="openMaterial('commerce.html')">Commerce<span>Form 1–6</span></div>
+    <div class="card" onclick="openMaterial('accounts.html')">Accounts<span>Form 1–6</span></div>
+    <div class="card" onclick="openMaterial('agriculture.html')">Agriculture<span>Form 1–6</span></div>
+    <div class="card" onclick="openMaterial('ict.html')">ICT<span>Form 1–6</span></div>
+    <div class="card" onclick="openMaterial('economics.html')">Economics<span>Form 1–6</span></div>
+    <div class="card" onclick="openMaterial('business.html')">Business Studies<span>Form 1–6</span></div>
+    <div class="card" onclick="openMaterial('ndebele.html')">Ndebele<span>Form 1–6</span></div>
+    <div class="card" onclick="openMaterial('geography.html')">Geography<span>Form 1–6</span></div>
+    <div class="card" onclick="openMaterial('history.html')">History<span>Form 1–6</span></div>
+    <div class="card" onclick="openMaterial('physics.html')">Physics<span>Form 1–6</span></div>
+    <div class="card" onclick="openMaterial('rme.html')">RME<span>Form 1–6</span></div>
+    <div class="card" onclick="openMaterial('shona.html')">Shona<span>Form 1–6</span></div>
+    <div class="card" onclick="openMaterial('science.html')">Science<span>Form 1–6</span></div>
+  </div>
+</main>
 
 </body>
-</html>
-                                                                                         </html>
+                                                                                       </html>
