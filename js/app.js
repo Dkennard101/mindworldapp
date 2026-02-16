@@ -105,7 +105,7 @@ export async function downloadFile(subject, fileName){
   }
 
   // Allow download
-  window.open(`../public/${subject}/${fileName}`, "_blank");
+  window.open(`../subject/${subject}/${fileName}`, "_blank");
 
   // Update Firestore download count
   if(!data.isAppUser){
