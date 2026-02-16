@@ -1,106 +1,78 @@
-// ads-and-downloads.js
-// Modular Firebase (CDN ONLY)
+import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-auth.js";
+import { getFirestore, doc, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-firestore.js";
+import { app } from "./firebase-config.js"; // Only Firebase initialization
 
-import { initializeApp } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-app.js";
-import {
-  getAuth,
-  onAuthStateChanged,
-  signInWithEmailAndPassword,
-  createUserWithEmailAndPassword,
-  signOut
-} from "https://www.gstatic.com/firebasejs/12.9.0/firebase-auth.js";
-
-import {
-  getFirestore,
-  doc,
-  setDoc,
-  getDoc,
-  updateDoc
-} from "https://www.gstatic.com/firebasejs/12.9.0/firebase-firestore.js";
-
-// 🔹 Firebase Config
-const firebaseConfig = {
-  apiKey: "AIzaSyAlYXlGCDZOy_DXMNSX3GGCKmucOlJgvbM",
-  authDomain: "mind-world-13a05.firebaseapp.com",
-  projectId: "mind-world-13a05",
-  storageBucket: "mind-world-13a05.firebasestorage.app",
-  messagingSenderId: "32577127287",
-  appId: "1:32577127287:web:673dd883f027bb6bdcd772"
-};
-
-// 🔹 Initialize ONCE
-const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 
 let currentUser = null;
 window.isSubscriber = false;
 
-// 🔹 Auth Listener
 onAuthStateChanged(auth, async (user) => {
   currentUser = user;
-
-  if (user) {
-    const snap = await getDoc(doc(db, "users", user.uid));
-    window.isSubscriber = snap.exists() && snap.data().subscription === true;
+  if(user){
+    const userDoc = await getDoc(doc(db, "users", user.uid));
+    if(userDoc.exists() && userDoc.data().subscription === true){
+      window.isSubscriber = true;
+    } else {
+      window.isSubscriber = false;
+    }
   } else {
     window.isSubscriber = false;
   }
 });
 
-// 🔹 Register
-window.registerUser = async (email, password) => {
-  try {
-    const cred = await createUserWithEmailAndPassword(auth, email, password);
-
-    await setDoc(doc(db, "users", cred.user.uid), {
-      email: email,
-      subscription: false,
-      isAppUser: false,
-      subjects: {}
-    });
-
-    alert("Registered successfully");
-  } catch (e) {
-    alert(e.message);
+export async function downloadFile(subject, fileName){
+  if(!currentUser){
+    alert("Please login first to download files!");
+    return;
   }
-};
 
-// 🔹 Login
-window.loginUser = async (email, password) => {
-  try {
-    await signInWithEmailAndPassword(auth, email, password);
-    alert("Login successful");
-  } catch (e) {
-    alert(e.message);
+  const userRef = doc(db, "users", currentUser.uid);
+  const userSnap = await getDoc(userRef);
+  if(!userSnap.exists()){ alert("User data not found!"); return; }
+
+  const data = userSnap.data();
+  let subjectData = data.subjects[subject];
+
+  // Weekly limit reset logic
+  const today = new Date();
+  const weekStart = new Date(subjectData.weekStart);
+  const diffDays = Math.floor((today - weekStart)/(1000*60*60*24));
+  if(diffDays >= 7){
+    subjectData.weeklyDownloadsUsed = 0;
+    subjectData.weekStart = today.toISOString();
+    await updateDoc(userRef, { [`subjects.${subject}`]: subjectData });
   }
-};
 
-// 🔹 Logout
-window.logoutUser = async () => {
-  await signOut(auth);
-  alert("Logged out");
-};
-
-// 🔹 Protected Navigation
-window.openMaterial = function (url) {
-  if (window.isSubscriber) {
-    window.location.href = url;
-  } else {
-    showRewardedAd().then((success) => {
-      if (success) {
-        window.location.href = url;
-      } else {
-        alert("You must watch the ad.");
-      }
-    });
+  if(!data.isAppUser && subjectData.weeklyDownloadsUsed >= 2){
+    alert(`Weekly download limit reached for ${subject}`);
+    return;
   }
-};
 
-// 🔹 Simulated Rewarded Ad
-function showRewardedAd() {
-  return new Promise((resolve) => {
-    let watched = confirm("Simulated rewarded ad. Click OK to continue.");
+  // Open download from subjects folder
+  window.open(`subjects/${subject}/${fileName}`, "_blank");
+
+  // Update download count
+  if(!data.isAppUser){
+    subjectData.weeklyDownloadsUsed += 1;
+    await updateDoc(userRef, { [`subjects.${subject}`]: subjectData });
+  }
+}
+
+// Rewarded ad simulation
+export function showRewardedAd(){
+  return new Promise(resolve => {
+    const watched = confirm("Simulated ad: Click OK to simulate watching ad.");
     resolve(watched);
   });
-                   }
+}
+
+window.openMaterial = async function(url){
+  if(window.isSubscriber){
+    window.location.href = url;
+  } else {
+    const watched = await showRewardedAd();
+    if(watched) window.location.href = url;
+  }
+}
