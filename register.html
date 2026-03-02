@@ -17,13 +17,13 @@
   </div>
 
   <script type="module">
-    import { register } from './main.js';
+    import { registerUser } from './main.js';
 
     document.getElementById('register-btn').addEventListener('click', () => {
       const email = document.getElementById('register-email').value;
       const password = document.getElementById('register-password').value;
-      register(email, password);
+      registerUser(email, password);
     });
   </script>
 </body>
-</html>
+</html> 
