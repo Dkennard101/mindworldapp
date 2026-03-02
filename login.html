@@ -13,16 +13,16 @@
     <input type="email" id="login-email" placeholder="Email" required>
     <input type="password" id="login-password" placeholder="Password" required>
     <button id="login-btn">Login</button>
-    <p>Don't have an account? <a href="register.html">Register here</a></p>
+    <p>No account? <a href="register.html">Register here</a></p>
   </div>
 
   <script type="module">
-    import { login } from './main.js';
+    import { loginUser } from './main.js';
 
     document.getElementById('login-btn').addEventListener('click', () => {
       const email = document.getElementById('login-email').value;
       const password = document.getElementById('login-password').value;
-      login(email, password);
+      loginUser(email, password);
     });
   </script>
 </body>
